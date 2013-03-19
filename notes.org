@@ -1,0 +1,14 @@
+* <2013-03-19 Tue 11:17>
+I forgot how to use org-mode!
+Ah, there we go.
+Okay, the idea is to write a few scripts that will automatically create my website for me.
+It will follow a similar convention to that of my current site.
+** Each top level folder will be a page
+*** Top level pages will have a navigation bar to link to each other
+*** Within their tab, sublinks will be provided for each sub page
+*** Or anchor...?
+** Content will be in a separate file
+** Hmm.... git?
+Oh right, fix my git commit attributions.
+Makes sense: I don't get credit for forks unless it gets mainlined.
+It's been git-ted!
