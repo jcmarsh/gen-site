@@ -4,7 +4,7 @@ import re
 
 first_uppercase = re.compile('[A-Z].*')
 
-def sub_nav_bar(folder):
+def sub_nav_bar(folder, page):
     dir_names = []
     anchor_names = []
     for f in os.listdir(folder):
@@ -16,18 +16,17 @@ def sub_nav_bar(folder):
     dir_names.sort()
     anchor_names.sort()
 
-    print "\t\t<UL>"
+    page.write("\t\t<UL>\n")
     for n in dir_names:
-        print "\t\t\t<LI><A href=\"" + n + "/index.html\">" + n + "</A></LI>"
+        page.write("\t\t\t<LI><A href=\"" + n + "/index.html\">" + n + "</A></LI>\n")
     for a in anchor_names:
-        print "\t\t\t<LI><A href=\"#" + a + "\">" + a + "</A></LI>"
-    print "\t\t</UL>"
+        page.write("\t\t\t<LI><A href=\"#" + a + "\">" + a + "</A></LI>\n")
+    page.write("\t\t</UL>\n")
 
 
-def nav_bar(folder, depth):
+def gen_nav_bar(folder, depth, page):
     print "WARN: Should use a non-platform specific delimeter"
 
-    
     pre = ""
     base = ""
     top_level = os.path.abspath(folder)
@@ -47,22 +46,12 @@ def nav_bar(folder, depth):
                 dir_names.append(f)
     dir_names.sort()
 
-    print "<div class=\"nav_bar\">"
-    print "\t<UL>"
-    print "\t\t<LI><A href=\"" + pre + "index.html\">Home</A></LI>"
+    page.write("<div class=\"nav_bar\">\n")
+    page.write("\t<UL>\n")
+    page.write("\t\t<LI><A href=\"" + pre + "index.html\">Home</A></LI>\n")
     for n in dir_names:
-        print "\t\t<LI><A href=\"" + pre + n + "/index.html\">" + n + "</A></LI>"
+        page.write("\t\t<LI><A href=\"" + pre + n + "/index.html\">" + n + "</A></LI>\n")
         if n == base:
-            sub_nav_bar(top_level + '/' + base)
-    print "\t</UL>"
-    print "</div>"
-
-def print_usage():
-    print "WARN: James is a lazy programmer"
-
-
-if len(sys.argv) < 2:
-    print_usage()
-else:
-    print "WARN: Should be validating input."
-    nav_bar(sys.argv[1], 1)
+            sub_nav_bar(top_level + '/' + base, page)
+    page.write("\t</UL>\n")
+    page.write("</div>\n")
