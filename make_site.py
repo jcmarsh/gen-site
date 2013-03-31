@@ -1,17 +1,32 @@
 import sys
+import shutil
 import re
 from create_nav import *
 
 first_uppercase = re.compile('[A-Z].*')
 header_data = None
 footer_data = None
+# TODO: Eventually should have a variable definition table... but too complex for now
+style_sheet_name = "style.css"
 
 print "It's website making time Mother Fucker."
 
 def gen_header(directory, depth, page):
     if header_data:
         for line in header_data:
-            page.write(line)
+            if '$' in line:
+                bits = line.partition("$")
+                new_line = bits[0]
+                new_line = new_line + "\""
+                for i in range(depth):
+                    new_line = new_line + "..\\"
+
+                new_line = new_line + style_sheet_name + "\""
+                new_line = new_line + bits[2].partition("$")[2]
+
+                page.write(new_line)
+            else:
+                page.write(line)
     else:
         page.write("HEADER\n")
 
@@ -59,4 +74,5 @@ else:
     header_data = header_f.readlines()
     footer_f = open(source + "/footer.html")
     footer_data = footer_f.readlines()
+    shutil.copy(source + "/" + style_sheet_name, sys.argv[2] + "/" + style_sheet_name)
     create_site(source, sys.argv[2], 0)
