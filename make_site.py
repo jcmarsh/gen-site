@@ -14,28 +14,25 @@ def parse_vars(var_file):
         table[bits[0]] = bits[2].rstrip()
     return table
 
-def gen_header(directory, depth, page, table):
+# Recursive check to handle multiple variables in a line.
+def replace_var(line, table):
+    if '$' in line: # TODO: Should be able to handle multiple vars
+        bits = line.partition("$")
+        new_line = bits[0]
+        var_name = bits[2].partition("$")[0]
+        new_line = new_line + table[var_name]
+        return new_line + replace_var(bits[2].partition("$")[2], table)
+    else:
+        return line
+        
+def gen_header(directory, page, table):
     if header_data:
         for line in header_data:
-            if '$' in line:
-                bits = line.partition("$")
-                new_line = bits[0]
-                var_name = bits[2].partition("$")[0]
-                print "VAR NAME %s: %s" % (var_name, table[var_name])
-                new_line = new_line + "\""
-                for i in range(depth):
-                    new_line = new_line + "..\\"
-
-                new_line = new_line + table[var_name] + "\""
-                new_line = new_line + bits[2].partition("$")[2]
-
-                page.write(new_line)
-            else:
-                page.write(line)
+            page.write(replace_var(line, table))
     else:
         page.write("HEADER\n")
 
-def gen_content(directory, depth, page):
+def gen_content(directory, page):
     content_f = open(directory + "/content.html")
     if content_f:
         for line in content_f:
@@ -43,7 +40,7 @@ def gen_content(directory, depth, page):
     else:
         page.write("CONTENT\n")
 
-def gen_footer(directory, depth, page):
+def gen_footer(directory, page):
     if footer_data:
         for line in footer_data:
             page.write(line)
@@ -54,11 +51,17 @@ def create_site(source_dir, output_dir, depth, table):
     out_file_name = output_dir + "/index.html"
     page = open(out_file_name, 'w')
 
-    gen_header(source_dir, depth, page, table)
-    gen_content(source_dir, depth, page)
+    # insert _relative to table
+    relative = ""
+    for i in range(depth):
+        relative = relative + "../"
+    table['_relative'] = relative
+
+    gen_header(source_dir, page, table)
+    gen_content(source_dir, page)
     page.write("\t\t\t</div>\n")
     gen_nav_bar(source_dir, depth, page)
-    gen_footer(source_dir, depth, page)
+    gen_footer(source_dir, page)
 
     for f in os.listdir(source_dir):
         if os.path.isdir(source_dir + '/' + f):
@@ -81,6 +84,13 @@ else:
     header_data = header_f.readlines()
     footer_f = open(source + "/footer.html")
     footer_data = footer_f.readlines()
-#    shutil.copy(source + "/" + style_sheet_name, sys.argv[2] + "/" + style_sheet_name)
+
+    # TODO: These file names should not be hard-coded
+    # Copy over stylesheet
+    shutil.copy(source + "/style.css", sys.argv[2] + "/style.css")
+
     # Copy image file
+    os.makedirs(sys.argv[2] + "/img/")
+    shutil.copy(source + "/img/logo.jpg", sys.argv[2] + "/img/logo.jpg")
+ 
     create_site(source, sys.argv[2], 0, var_table)
