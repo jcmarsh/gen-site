@@ -12,3 +12,13 @@ It will follow a similar convention to that of my current site.
 Oh right, fix my git commit attributions.
 Makes sense: I don't get credit for forks unless it gets mainlined.
 It's been git-ted!
+* <2013-04-19 Fri 09:49>
+Was able to get 90% of what I wanted done. 
+Even has a few spiffy features like being able to define variables in the content files which are replaced when generating.
+Still have a few things to fix up
+** Todo:
+variable deliminator should be possible to escape
+sub-nav bars should be able to handle anchors
+make a decision about sub-sub-nav bars
+make navbar float
+fix WARNs

@@ -85,10 +85,13 @@ else:
     footer_f = open(source + "/footer.html")
     footer_data = footer_f.readlines()
 
-    # TODO: These file names should not be hard-coded
     # Copy over stylesheet
-    shutil.copy(source + "/style.css", sys.argv[2] + "/style.css")
+    if var_table["style_sheet"]:
+        shutil.copy(source + "/" + var_table["style_sheet"], sys.argv[2] + "/" + var_table["style_sheet"])
+    else:
+        print "No style sheet detected (in var.table as 'style_sheet=[name]')"
 
+    # TODO: These file names should not be hard-coded
     # Copy image file
     os.makedirs(sys.argv[2] + "/img/")
     shutil.copy(source + "/img/logo.jpg", sys.argv[2] + "/img/logo.jpg")
