@@ -22,3 +22,7 @@ sub-nav bars should be able to handle anchors
 make a decision about sub-sub-nav bars
 make navbar float
 fix WARNs
+* <2013-12-19 Thu 14:36>
+I want to clean this up enough so that I can actually replace my current site with it.
+And I would like to do that as quickly as possible.
+
