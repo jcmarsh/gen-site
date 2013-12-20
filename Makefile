@@ -1,5 +1,5 @@
 default:
-	python make_site.py web_source generated
+	python make_site.py ~/Dropbox/website/web_source generated
 
 clean:
 	rm -rf ./generated/*

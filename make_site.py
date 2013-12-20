@@ -106,9 +106,4 @@ else:
     else:
         print "No style sheet detected (in var.table as 'style_sheet=[name]')"
 
-    # Copy image file
-    # TODO: img folder should be read from the var.table as well
-#    os.makedirs(sys.argv[2] + "/img/")
-#    shutil.copy(source + "/" + var_table["logo"], sys.argv[2] + "/" + var_table["logo"])
- 
     create_site(source, sys.argv[2], 0, var_table)
