@@ -47,6 +47,15 @@ def gen_footer(directory, page):
     else:
         page.write("FOOTER\n")
 
+def copy_dir_contents(source_dir, output_dir):
+    for f in os.listdir(source_dir):
+        if os.path.isdir(source_dir + '/' + f):
+            new_output = output_dir + '/' + f
+            os.makedirs(new_output)
+            copy_dir_contents(source_dir + '/' + f, new_output)
+        else:
+            shutil.copy(source_dir + '/' + f, output_dir + '/' + f)
+
 def create_site(source_dir, output_dir, depth, table):
     out_file_name = output_dir + "/index.html"
     page = open(out_file_name, 'w')
@@ -69,6 +78,12 @@ def create_site(source_dir, output_dir, depth, table):
                 new_output = output_dir + '/' + f[3:] # Strip leading "##_"
                 os.makedirs(new_output)
                 create_site(source_dir + '/' + f, new_output, depth + 1, table)
+            else: # Is a directory that should be copied over, but without a page made
+                new_output = output_dir + '/' + f
+                os.makedirs(new_output)
+                copy_dir_contents(source_dir + '/' + f, new_output)
+        else: # Is a file that may need to be copied?
+            shutil.copy(source_dir + '/' + f, output_dir + '/' + f)
 
 def print_usage():
     print "Usage: python make_site.py [source_tree_dir] [output_dir]"
@@ -93,7 +108,7 @@ else:
 
     # Copy image file
     # TODO: img folder should be read from the var.table as well
-    os.makedirs(sys.argv[2] + "/img/")
-    shutil.copy(source + "/" + var_table["logo"], sys.argv[2] + "/" + var_table["logo"])
+#    os.makedirs(sys.argv[2] + "/img/")
+#    shutil.copy(source + "/" + var_table["logo"], sys.argv[2] + "/" + var_table["logo"])
  
     create_site(source, sys.argv[2], 0, var_table)
