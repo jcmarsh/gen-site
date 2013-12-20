@@ -2,7 +2,7 @@ import sys
 import os
 import re
 
-leading_number = re.compile('[0-1][0-1].*') # Introduces a limit of 100 (0 - 99) pages on the navigation bar. I'm okay with that.
+leading_number = re.compile('[0-9][0-9].*') # Introduces a limit of 100 (0 - 99) pages on the navigation bar. I'm okay with that.
 
 def sub_nav_bar(folder, page):
     dir_names = []
