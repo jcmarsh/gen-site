@@ -3,7 +3,7 @@ import shutil
 import re
 from create_nav import *
 
-first_uppercase = re.compile('[A-Z].*')
+leading_number = re.compile('[0-9][0-9].*')
 header_data = None
 footer_data = None
 
@@ -65,8 +65,8 @@ def create_site(source_dir, output_dir, depth, table):
 
     for f in os.listdir(source_dir):
         if os.path.isdir(source_dir + '/' + f):
-            if first_uppercase.match(f):
-                new_output = output_dir + '/' + f
+            if leading_number.match(f):
+                new_output = output_dir + '/' + f[3:] # Strip leading "##_"
                 os.makedirs(new_output)
                 create_site(source_dir + '/' + f, new_output, depth + 1, table)
 
@@ -93,6 +93,7 @@ else:
 
     # TODO: These file names should not be hard-coded
     # Copy image file
+    # TODO: This is in the var table, no?
     os.makedirs(sys.argv[2] + "/img/")
     shutil.copy(source + "/img/logo.jpg", sys.argv[2] + "/img/logo.jpg")
  

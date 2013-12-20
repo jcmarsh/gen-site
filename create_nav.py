@@ -2,25 +2,25 @@ import sys
 import os
 import re
 
-first_uppercase = re.compile('[A-Z].*')
+leading_number = re.compile('[0-1][0-1].*') # Introduces a limit of 100 (0 - 99) pages on the navigation bar. I'm okay with that.
 
 def sub_nav_bar(folder, page):
     dir_names = []
     anchor_names = []
     for f in os.listdir(folder):
         if os.path.isdir(folder + '/' + f):
-            if first_uppercase.match(f):
+            if leading_number.match(f):
                 dir_names.append(f)
-            else:
-                anchor_names.append(f)
-    dir_names.sort()
-    anchor_names.sort()
+#            else:
+#                anchor_names.append(f)
+#    dir_names.sort()
+#    anchor_names.sort()
 
     page.write("\t\t<UL>\n")
     for n in dir_names:
         page.write("\t\t\t<LI><A href=\"" + n + "/index.html\">" + n + "</A></LI>\n")
-    for a in anchor_names:
-        page.write("\t\t\t<LI><A href=\"#" + a + "\">" + a + "</A></LI>\n")
+#    for a in anchor_names:
+#        page.write("\t\t\t<LI><A href=\"#" + a + "\">" + a + "</A></LI>\n")
     page.write("\t\t</UL>\n")
 
 
@@ -42,9 +42,9 @@ def gen_nav_bar(folder, depth, page):
     dir_names = []
     for f in os.listdir(top_level):
         if os.path.isdir(top_level + '/' + f):
-            if first_uppercase.match(f):
-                dir_names.append(f)
-    dir_names.sort()
+            if leading_number.match(f):                
+                dir_names.append(f[3:]) # Cuts out the begining "00_"
+#    dir_names.sort()
 
     page.write("<div class=\"nav_bar\">\n")
     page.write("\t<UL>\n")
