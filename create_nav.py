@@ -43,14 +43,15 @@ def gen_nav_bar(folder, depth, page):
     for f in os.listdir(top_level):
         if os.path.isdir(top_level + '/' + f):
             if leading_number.match(f):                
-                dir_names.append(f[3:]) # Cuts out the begining "00_"
-#    dir_names.sort()
+                dir_names.append(f)
+    dir_names.sort()
 
     page.write("<div class=\"nav_bar\">\n")
     page.write("\t<UL>\n")
     page.write("\t\t<LI><A href=\"" + pre + "index.html\">Home</A></LI>\n")
     for n in dir_names:
-        page.write("\t\t<LI><A href=\"" + pre + n + "/index.html\">" + n + "</A></LI>\n")
+        # [3:] Cuts out the begining "00_" from n
+        page.write("\t\t<LI><A href=\"" + pre + n[3:] + "/index.html\">" + n[3:] + "</A></LI>\n")
         if n == base:
             sub_nav_bar(top_level + '/' + base, page)
     page.write("\t</UL>\n")
