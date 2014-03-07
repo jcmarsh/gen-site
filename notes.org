@@ -26,3 +26,42 @@ fix WARNs
 I want to clean this up enough so that I can actually replace my current site with it.
 And I would like to do that as quickly as possible.
 
+
+* <2014-02-28 Fri 12:45>
+I'm going to update my website... let's see what happens
+** wget the wiki from the local server
+From ~/Dropbox/website/web_source/wiki
+  wget -r -k -np -p -l 0 127.0.0.1/wiki --html-extension
+  mv 127.0.0.1/wiki/* ./
+  rm -r 127.0.0.1
+** Clean up
+Delete the edit pages and such
+  rm *action=edit.html
+  rm *action=print.html
+  rm *action=diff.html
+Delete most of the pdfs, but not the pictures.
+  rm uploads/Background/*.pdf
+  rm uploads/Research/LinuxVirtualMemoryManagement.pdf 
+  rm uploads/Research/AdvancedLinuxProgramming.pdf 
+Delete a lot of useless stuff
+  rm -r wiki.d/
+  rm -r wikilib.d/
+  rm -r cookbook/
+  rm -r docs/
+  rm -r local/
+  rm -r scripts/
+  rm -r pub/css
+  rm -r pub/guiedit/
+  rm pub/index.html 
+  rm -r pub/skins/print/
+  rm pub/skins/index.html 
+  rm -r pub/skins/pmwiki/
+** Make the actual site
+From ~/research/gen-site/
+  make
+Tar it
+  tar -cvf new_site.tar ./generated/
+Send to acad
+  scp new_site.tar jcmarsh@acad.gwu.edu:~/
+Go There, unpack into public_html, run fix_html
+

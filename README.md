@@ -8,7 +8,7 @@ This is experimental, and does not work well.
 To create a website:
  * run `python make_site.py source_folder destination_folder`
 
-The system make a large number of assumptions.
+The system makes a large number of assumptions.
 * Every page will have the same header and footer.
 * The navigation frame is create by create_nav.py and is based off of the source folders directory structure:
  * Each folder becomes a top level item.
