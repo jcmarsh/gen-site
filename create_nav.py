@@ -4,6 +4,15 @@ import re
 
 leading_number = re.compile('[0-9][0-9].*') # Introduces a limit of 100 (0 - 99) pages on the navigation bar. I'm okay with that.
 
+def gen_nav_bar_footer(directory, page):
+    nav_bar_footer_f = open(directory + "/nav_footer.html")
+    if nav_bar_footer_f:
+        for line in nav_bar_footer_f:
+            page.write(line)
+        nav_bar_footer_f.close()
+    else:
+        page.write("NAV FOOTER\n")
+
 def sub_nav_bar(folder, page):
     dir_names = []
     anchor_names = []
@@ -55,4 +64,10 @@ def gen_nav_bar(folder, depth, page):
         if n == base:
             sub_nav_bar(top_level + '/' + base, page)
     page.write("\t</UL>\n")
+    # add nav_bar footer
+
+    page.write("\t<div class=\"nav_bar_footer\">\n")
+    gen_nav_bar_footer(top_level, page)
+    page.write("\t</div>\n")
+
     page.write("</div>\n")

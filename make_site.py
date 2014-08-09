@@ -37,6 +37,7 @@ def gen_content(directory, page):
     if content_f:
         for line in content_f:
             page.write(line)
+        content_f.close()
     else:
         page.write("CONTENT\n")
 
@@ -95,10 +96,13 @@ else:
     source = sys.argv[1]
     var_f = open(source + "/var.table")
     var_table = parse_vars(var_f)
+    var_f.close()
     header_f = open(source + "/header.html")
     header_data = header_f.readlines()
+    header_f.close()
     footer_f = open(source + "/footer.html")
     footer_data = footer_f.readlines()
+    footer_f.close()
 
     # Copy over stylesheet
     if var_table["style_sheet"]:
