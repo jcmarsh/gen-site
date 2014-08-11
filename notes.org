@@ -31,7 +31,7 @@ And I would like to do that as quickly as possible.
 I'm going to update my website... let's see what happens
 ** wget the wiki from the local server
 From ~/Dropbox/website/web_source/wiki
-  wget -r -k -np -p -l 0 127.0.0.1/wiki --html-extension
+  wget -r -k -np -p -l 0 127.0.0.1/wiki/pmwiki.php --html-extension
   mv 127.0.0.1/wiki/* ./
   rm -r 127.0.0.1
 ** Clean up
@@ -43,13 +43,13 @@ Delete most of the pdfs, but not the pictures.
   rm uploads/Background/*.pdf
   rm uploads/Research/LinuxVirtualMemoryManagement.pdf 
   rm uploads/Research/AdvancedLinuxProgramming.pdf 
-Delete a lot of useless stuff
-  rm -r wiki.d/
-  rm -r wikilib.d/
-  rm -r cookbook/
-  rm -r docs/
-  rm -r local/
-  rm -r scripts/
+Delete a lot of useless stuff (no longer need - #)
+  #rm -r wiki.d/
+  #rm -r wikilib.d/
+  #rm -r cookbook/
+  #rm -r docs/
+  #rm -r local/
+  #rm -r scripts/
   rm -r pub/css
   rm -r pub/guiedit/
   rm pub/index.html 
